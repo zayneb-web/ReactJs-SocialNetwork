@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { Outlet, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Home, Login, Profile, Register } from "./pages";
+//navigate between pages  
+function Layout() {
+  const { user } = useSelector((state) => state.user);
+  //useLocation est utilisé pour obtenir l'entrée actuelle qui représente l'URL où l'application est actuellement rendue.
+  const location = useLocation();
+//for securtiy if the user have a token then he will have the access to all the pages (outled) sinon login
+  return user?.token ? (
+    <Outlet />
+  ) : (
+    <Navigate to='/login' state={{ from: location }} replace />
+  );
+}
 
 function App() {
+  const { theme } = useSelector((state) => state.theme);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div data-theme={theme} className='w-full min-h-[100vh]'>
+      <Routes>
+        {/* all those routes are protected using Layout*/}
+        <Route element={<Layout />}>
+          <Route path='/' element={<Home />} />
+          <Route path='/profile/:id?' element={<Profile />} />
+        </Route>
+
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
     </div>
   );
 }
