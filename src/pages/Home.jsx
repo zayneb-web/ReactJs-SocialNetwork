@@ -134,7 +134,7 @@ const Home = () => {
                                         <CustomButton
                                             type='submit'
                                             title='Post'
-                                            containerStyles='bg-[#0444a4] text-white py-1 px-6 rounded-full font-semibold text-sm'
+                                            containerStyles='bg-[#f80606] text-white py-1 px-6 rounded-full font-semibold text-sm'
                                         />
                                     )}
                                 </div>
@@ -194,7 +194,7 @@ const Home = () => {
                                         <div className='flex gap-1'>
                                             <CustomButton
                                                 title='Accept'
-                                                containerStyles='bg-[#0444a4] text-xs text-white px-1.5 py-1 rounded-full'
+                                                containerStyles='bg-[#f80606] text-xs text-white px-1.5 py-1 rounded-full'
                                             />
                                             <CustomButton
                                                 title='Deny'
@@ -242,7 +242,7 @@ const Home = () => {
                                                 className='bg-[#0444a430] text-sm text-white p-1 rounded'
                                                 onClick={() => { }}
                                             >
-                                                <BsPersonFillAdd size={20} className='text-[#0f52b6]' />
+                                                <BsPersonFillAdd size={20} className='text-[#f80606]' />
                                             </button>
                                         </div>
                                     </div>

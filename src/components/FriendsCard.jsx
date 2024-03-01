@@ -39,4 +39,4 @@ const FriendsCard = ({ friends }) => {
   );
 };
 
-export default FriendsCard;
+export default FriendsCard; 

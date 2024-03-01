@@ -45,14 +45,14 @@ const ProfileCard = ({ user }) => {
               <LiaEditSolid
                 size={22}
                 className='text-blue cursor-pointer'
-                onClick={() => dispatch(UpdateProfile(true))}
+                onClick={() =>  (UpdateProfile(true))}
               />
             ) : (
               <button
-                className='bg-[#0444a430] text-sm text-white p-1 rounded'
+                className='bg-[#f80606] text-sm text-white p-1 rounded'
                 onClick={() => {}}
               >
-                <BsPersonFillAdd size={20} className='text-[#0f52b6]' />
+                <BsPersonFillAdd size={20} className='text-[#f80606]' />
               </button>
             )}
           </div>
