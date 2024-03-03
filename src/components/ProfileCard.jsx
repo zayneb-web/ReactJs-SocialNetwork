@@ -49,10 +49,10 @@ const ProfileCard = ({ user }) => {
               />
             ) : (
               <button
-                className='bg-[#f80606] text-sm text-white p-1 rounded'
+                className='bg-[#F76566] text-sm text-white p-1 rounded'
                 onClick={() => {}}
               >
-                <BsPersonFillAdd size={20} className='text-[#f80606]' />
+                <BsPersonFillAdd size={20} className='text-[#F76566]' />
               </button>
             )}
           </div>

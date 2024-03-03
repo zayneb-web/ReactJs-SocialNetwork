@@ -50,7 +50,7 @@ const Home = () => {
                             onSubmit={handleSubmit(handlePostSubmit)}
                             className='bg-primary px-4 rounded-lg'
                         >
-                            <div className='w-full flex items-center gap-2 py-4 border-b border-[#66666645]'>
+                            <div className='w-full flex items-center gap-2 py-4 border-b border-[#E4DEBE]'>
                                 <img
                                     src={user?.profileUrl ?? NoProfile}
                                     alt='User Image'
@@ -134,7 +134,7 @@ const Home = () => {
                                         <CustomButton
                                             type='submit'
                                             title='Post'
-                                            containerStyles='bg-[#f80606] text-white py-1 px-6 rounded-full font-semibold text-sm'
+                                            containerStyles='bg-[#F76566] text-white py-1 px-6 rounded-full font-semibold text-sm'
                                         />
                                     )}
                                 </div>
@@ -194,7 +194,7 @@ const Home = () => {
                                         <div className='flex gap-1'>
                                             <CustomButton
                                                 title='Accept'
-                                                containerStyles='bg-[#f80606] text-xs text-white px-1.5 py-1 rounded-full'
+                                                containerStyles='bg-[#F76566] text-xs text-white px-1.5 py-1 rounded-full'
                                             />
                                             <CustomButton
                                                 title='Deny'
@@ -242,7 +242,7 @@ const Home = () => {
                                                 className='bg-[#0444a430] text-sm text-white p-1 rounded'
                                                 onClick={() => { }}
                                             >
-                                                <BsPersonFillAdd size={20} className='text-[#f80606]' />
+                                                <BsPersonFillAdd size={20} className='text-[#F76566]' />
                                             </button>
                                         </div>
                                     </div>

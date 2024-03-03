@@ -110,7 +110,7 @@ const CommentForm = ({ user, id, replyAt, getComments }) => {
           <CustomButton
             title='Submit'
             type='submit'
-            containerStyles='bg-[#0444a4] text-white py-1 px-3 rounded-full font-semibold text-sm'
+            containerStyles='bg-[#F76566] text-white py-1 px-3 rounded-full font-semibold text-sm'
           />
         )}
       </div>

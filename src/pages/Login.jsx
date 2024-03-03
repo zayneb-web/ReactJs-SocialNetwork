@@ -31,10 +31,10 @@ const Login = () => {
         {/* LEFT */}
         <div className='w-full lg:w-1/2 h-full p-10 2xl:px-20 flex flex-col justify-center '>
           <div className='w-full flex gap-2 items-center mb-6'>
-            <div className='p-2 bg-[#f80606] rounded text-white'>
+            <div className='p-2 bg-[#F76566] rounded text-white'>
               <TbSocial />
             </div>
-            <span className='text-2xl text-[#f80606] font-semibold text-center'>
+            <span className='text-2xl text-[#F76566] font-semibold text-center'>
             Better Call Us
             </span>
           </div>
@@ -75,7 +75,7 @@ const Login = () => {
             />
             <Link
               to='/reset-password'
-              className='text-sm text-right text-[#e09d66fe] font-semibold'
+              className='text-sm text-right text-[#FDE0DF] font-semibold'
             >
               Forgot Password ?
             </Link>
@@ -96,7 +96,7 @@ const Login = () => {
             ) : (
               <CustomButton
                 type='submit'
-                containerStyles={`inline-flex justify-center rounded-md bg-[#f80606] px-8 py-3 text-sm font-medium text-white outline-none`}
+                containerStyles={`inline-flex justify-center rounded-md bg-[#F76566] px-8 py-3 text-sm font-medium text-white outline-none`}
                 title='Login'
               />
             )}
@@ -107,14 +107,14 @@ const Login = () => {
             Don't have an account?
             <Link
               to='/register'
-              className='text-[#f80606] font-semibold ml-2 cursor-pointer'
+              className='text-[#F76566] font-semibold ml-2 cursor-pointer'
             >
               Create Account
             </Link>
           </p>
         </div>
         {/* RIGHT */}
-        <div className='hidden w-1/2 h-full lg:flex flex-col items-center justify-center bg-[#f80606]'>
+        <div className='hidden w-1/2 h-full lg:flex flex-col items-center justify-center bg-[#F76566]'>
           <div className='relative w-full flex items-center justify-center'>
             <img
               src={BgImage}
