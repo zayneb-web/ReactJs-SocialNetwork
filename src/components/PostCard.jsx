@@ -33,7 +33,6 @@ const ReplyCard = ({ reply, user, handleLike }) => {
           </span>
         </div>
       </div>
-
       <div className='ml-12'>
         <p className='text-ascent-2 '>{reply?.comment}</p>
         <div className='mt-2 flex gap-6'>
@@ -223,8 +222,8 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
             className='flex gap-1 items-center text-base text-ascent-1 cursor-pointer'
             onClick={() => deletePost(post?._id)}
           >
-            <MdOutlineDeleteOutline size={20} />
-            <span>Delete</span>
+          <MdOutlineDeleteOutline size={20} />
+          <span>Delete</span>
           </div>
         )}
       </div>
