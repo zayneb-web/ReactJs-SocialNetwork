@@ -14,7 +14,7 @@ import TopBar from "../components/TopBar";
 import FriendsCard from "../components/FriendsCard";
 import PostCard from "../components/PostCard";
 import EditProfile from "../components/EditProfile";
-import { apiRequest, fetchPosts, handleFileUpload, sendFriendRequest ,getUserInfo} from "../utils/api";
+import { apiRequest, fetchPosts, handleFileUpload, sendFriendRequest ,getUserInfo, likePost, deletePost} from "../utils/api";
 import { UserLogin } from "../redux/userSlice";
 //useSelector d'extraire des données du magasin Redux.
 const Home = () => {
@@ -68,8 +68,19 @@ const dispatch = useDispatch();
         setLoading(false);
     };
 
-    const handlelikePost = async()=>{};
-    const handledelete = async()=>{};
+    const handlelikePost = async(uri)=>{
+        await likePost({uri:uri , token : user?.token});
+        await fetchPost();
+    };
+    const handledelete = async (id) => {
+        if (user.token) {
+            await deletePost(id, user.token);
+            await fetchPosts();
+        } else {
+            console.log("Token is missing or invalid");
+        }
+    };
+    
 
     const fetchFriendRequest = async()=>{
         try{
@@ -246,8 +257,8 @@ const dispatch = useDispatch();
                                     key={post?._id}
                                     post={post}
                                     user={user}
-                                    deletePost={() => { }}
-                                    likePost={() => { }}
+                                    deletePost={handledelete}
+                                    likePost={handlelikePost}
                                 />
                             ))
                         ) : (
