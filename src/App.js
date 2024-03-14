@@ -1,6 +1,7 @@
 import { Outlet, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Home, Login, Profile, Register } from "./pages";
+import Chat from "./pages/Chat/Chat.js";
 //navigate between pages  
 function Layout() {
   const { user } = useSelector((state) => state.user);
@@ -22,12 +23,14 @@ function App() {
       <Routes>
         {/* all those routes are protected using Layout*/}
         <Route element={<Layout />}>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<Chat />} />
           <Route path='/profile/:id?' element={<Profile />} />
         </Route>
 
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/chat' element={<Chat />} />
+
       </Routes>
     </div>
   );

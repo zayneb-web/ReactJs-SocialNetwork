@@ -3,20 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@heroicons/react": "^2.1.1",
     "@reduxjs/toolkit": "^2.2.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.7",
+    "client": "^0.0.1",
     "dotenv": "^16.4.5",
     "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",
     "react-icons": "^5.0.1",
+    "react-input-emoji": "^5.6.6",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
+    "socket.io": "^4.7.4",
+    "socket.io-client": "^4.7.4",
+    "timeago.js": "^4.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -41,11 +47,12 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version",
-      "last 1 edge version",  
-      "last 1 opera version" 
+      "last 1 edge version",
+      "last 1 opera version"
     ]
   },
   "devDependencies": {
+    "daisyui": "^4.7.2",
     "tailwindcss": "^3.4.1"
   }
 }
