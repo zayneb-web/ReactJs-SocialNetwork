@@ -73,12 +73,8 @@ const dispatch = useDispatch();
         await fetchPost();
     };
     const handledelete = async (id) => {
-        if (user.token) {
             await deletePost(id, user.token);
             await fetchPosts();
-        } else {
-            console.log("Token is missing or invalid");
-        }
     };
     
 

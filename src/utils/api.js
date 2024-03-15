@@ -27,18 +27,18 @@ export const apiRequest = async({url , token , data , method})=>{
     }
 }
 export const handleFileUpload = async (uploadFile) => {
+    //formdata envoyer plusieurs objets au mm temps
+    const formData = new FormData();
+    formData.append("file", uploadFile);
+    formData.append("upload_preset", "BetterCallUs");
     try {
-        const formData = new FormData();
-        formData.append("file", uploadFile);
-        const response = await API.post("/upload", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
-        return response.data.url; // Assuming the server responds with the file URL
+        const response = await axios.post(
+            "https://api.cloudinary.com/v1_1/djfdv95aj/upload",
+            formData);
+            //secure_url : lien web qui permet d'accéder a une image
+        return response.data.secure_url; 
     } catch (error) {
-        console.error("File upload failed:", error);
-        throw error;
+        console.log(error);
     }
 };
 
@@ -78,7 +78,9 @@ export const deletePost=async(id,token)=>{
         });
         return;
     } catch (error) {
-        console.log(error);
+        console.error("An error occurred:", error);
+        console.log("Error details:", error.response);
+    
     }
 };
 export const getUserInfo = async(token, id) => {
