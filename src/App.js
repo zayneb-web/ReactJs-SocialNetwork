@@ -1,6 +1,6 @@
 import { Outlet, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Home, Login, Profile, Register } from "./pages";
+import { Home, Login, Profile, Register, Events } from "./pages";
 //navigate between pages  
 function Layout() {
   const { user } = useSelector((state) => state.user);
@@ -24,6 +24,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path='/' element={<Home />} />
           <Route path='/profile/:id?' element={<Profile />} />
+          <Route path='/events' element={<Events />} /> {/* Add EventPage route */}
         </Route>
 
         <Route path='/register' element={<Register />} />

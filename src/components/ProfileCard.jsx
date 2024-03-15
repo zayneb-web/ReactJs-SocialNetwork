@@ -107,7 +107,23 @@ const ProfileCard = ({ user }) => {
             <BsFacebook className=' text-xl text-ascent-1' />
             <span>Facebook</span>
           </div>
+          
         </div>
+        <div className='w-full flex flex-col gap-4 py-4 pb-6'>
+          <p className='text-ascent-1 text-lg font-semibold'>Event Page</p>
+
+          {/* Add Link to Event Page with Emoji */}
+          <div className='flex gap-2 items-center text-ascent-2'>
+            <Link to="/events" className=' text-xl text-ascent-1'>
+              Events
+            </Link>
+          </div>
+          <div className='flex gap-2 items-center text-ascent-2'>
+            <Link to="/courses" className=' text-xl text-ascent-1'>
+              Courses
+            </Link>
+          </div>
+          </div>
       </div>
     </div>
   );

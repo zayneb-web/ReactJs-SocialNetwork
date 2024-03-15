@@ -1,0 +1,27 @@
+// App.js
+import { Outlet, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Home, Login, Profile, Register, EventPage } from "./pages"; // Import EventPage
+import Layout from "./Layout"; // Import Layout component
+
+function App() {
+  const { theme } = useSelector((state) => state.theme);
+
+  return (
+    <div data-theme={theme} className='w-full min-h-[100vh]'>
+      <Routes>
+        {/* All routes are protected using Layout */}
+        <Route element={<Layout />}>
+          <Route path='/' element={<Home />} />
+          <Route path='/profile/:id?' element={<Profile />} />
+          <Route path='/events' element={<EventPage />} /> {/* Add EventPage route */}
+        </Route>
+
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;

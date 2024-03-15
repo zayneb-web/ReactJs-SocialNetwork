@@ -139,3 +139,57 @@ export const viewUserProfile = async (token , id)=>{
         console.log(error)
     }
 }
+// Event related functions
+
+export const createEvent = async (token, eventData) => {
+    try {
+        const res = await apiRequest({
+            url:  "/events/create-event",
+            method: "POST",
+            data: eventData,
+            token: token
+        });
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getEvents = async () => {
+    try {
+        const res = await apiRequest({
+            url: "/get-events",
+            method: "GET",
+        });
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const updateEvent = async (eventId, eventData, token) => {
+    try {
+        const res = await apiRequest({
+            url: `/update-event/${eventId}`,
+            method: "PUT",
+            data: eventData,
+            token: token
+        });
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const deleteEvent = async (eventId, token) => {
+    try {
+        const res = await apiRequest({
+            url: `/delete-event/${eventId}`,
+            method: "DELETE",
+            token: token
+        });
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
