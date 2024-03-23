@@ -1,20 +1,25 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./chat.css";
 import { getUserChats } from "../../utils/api";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import Conversation from "../../components/Conversation";
 import { ChatBox } from "../../components/ChatBox/ChatBox";
 import { io } from "socket.io-client";
 import TopBar from '../../components/TopBar';
+import { setChats,setCurrentChat } from "../../redux/chatSlice";
 
 function Chat() {
+  const dispatch = useDispatch(); // Initialize useDispatch
   const { user } = useSelector((state) => state.user);
-  const [chats, setChats] = useState([]);
+ // const [chats, setChats] = useState([]);
+  const chats = useSelector((state) => state.chat.chats); // Access chats from Redux state
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const [currentChat, setCurrentChat] = useState(null);
+  //const [currentChat, setCurrentChat] = useState(null);
+  const currentChat = useSelector((state) => state.chat.currentChat);
   const [sendMessage, setSendMessage] = useState(null);
   const [notification, setNotification] = useState(null);
   const [receivedMessage, setReceivedMessage] = useState(null);
+  
   const socket = useRef(null);
 
   useEffect(() => {
@@ -74,7 +79,8 @@ function Chat() {
     const getChats = async () => {
       try {
         const data  = await getUserChats(user._id, user.token);
-        setChats(data);
+        dispatch(setChats(data)); // Dispatch setChats action to update Redux state
+        console.log("chats", data);
         console.log("chats", data);
       } catch (error) {
         console.log(error);
@@ -83,7 +89,7 @@ function Chat() {
     if (user._id && user.token) {
       getChats();
     }
-  }, [user._id, user.token]);
+  }, [user._id, user.token,dispatch]);
 
   return (
     <>
@@ -115,7 +121,7 @@ function Chat() {
               {chats.map((chat) => (
                 <div
                   onClick={() => {
-                    setCurrentChat(chat);
+                    dispatch(setCurrentChat(chat)); 
                   }}
                 >
                   <Conversation data={chat} currentUser={user._id} />

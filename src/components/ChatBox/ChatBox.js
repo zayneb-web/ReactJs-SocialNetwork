@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addMessage, getMessages, getUserInfo, getUsersForSidebar } from "../../utils/api";
+import {  getMessages, getUserInfo, getUsersForSidebar } from "../../utils/api";
 import { format } from "timeago.js";
 import InputEmoji from 'react-input-emoji';
 import axios from "axios";
+import { addMessage , } from "../../redux/chatSlice"; 
 
 export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
     const fetchMessages = async () => {
       try {
         const  data  = await getMessages(chat._id, user.token);
-        setMessages(data);
+        dispatch(setMessages(data)); // Dispatch action to set messages in Redux store   setMessages(data);
         console.log("data", data);
       } catch (error) {
         console.log(error);
@@ -47,7 +48,7 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
     if (chat) {
       fetchMessages();
     }
-  }, [chat, user]);
+  }, [chat, user,dispatch]);
 
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
@@ -66,7 +67,8 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
         file: selectedImage ? selectedImage.name : "",
         video: "", // Initialize video attribute as an empty string
       };
-  
+  // Dispatch addMessage action to update Redux state
+  dispatch(addMessage(messageData));
       if (selectedImage) {
         // If an image is selected, upload it to Cloudinary
         const form = new FormData();
@@ -151,12 +153,6 @@ setSelectedImage(image); // Update selectedImage state, not setSelectedFile
 setNewMessage(image.name); // Update the message input with the file name
 };
 
-
-  useEffect(() => {
-    if (receivedMessage && receivedMessage.chatId === chat._id) {
-      setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-    }
-  }, [receivedMessage, chat]);
 
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });

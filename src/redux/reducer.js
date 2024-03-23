@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   user: userSlice,
   theme: themeSlice,
   posts: postSlice,
- // chat: chatSlice,
+  chat: chatSlice,
 });
 
 export { rootReducer };
