@@ -13,6 +13,7 @@ function Chat() {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [sendMessage, setSendMessage] = useState(null);
+  const [notification, setNotification] = useState(null);
   const [receivedMessage, setReceivedMessage] = useState(null);
   const socket = useRef(null);
 
@@ -59,7 +60,13 @@ function Chat() {
     socket.current.on("recieve-message", (data) => {
       setReceivedMessage(data);
       //notification
+  if (data.sender !== user._id) {
+    setNotification(data);
+  }
+
+      
       console.log("recieve-message", data);
+      console.log("notification", notification);
     });
   }, []);
 
@@ -81,7 +88,8 @@ function Chat() {
   return (
     <>
       <div className='w-full px-0 lg:px-10 pb-20 2xl:px-40 bg-bgColor lg:rounded-lg h-screen overflow-hidden'>
-        <TopBar />
+        <TopBar
+         />
         <div className="app ">
           <div className="header">
             <div className="logo">

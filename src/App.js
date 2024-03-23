@@ -23,7 +23,7 @@ function App() {
       <Routes>
         {/* all those routes are protected using Layout*/}
         <Route element={<Layout />}>
-          <Route path='/' element={<Chat />} />
+          <Route path='/' element={<Home />} />
           <Route path='/profile/:id?' element={<Profile />} />
         </Route>
 
