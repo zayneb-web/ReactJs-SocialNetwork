@@ -141,7 +141,7 @@ function Chat() {
               setSendMessage={setSendMessage}
               receivedMessage={receivedMessage}
             />
-            
+
           </div>
         </div>
       </div>

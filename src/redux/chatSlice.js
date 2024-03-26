@@ -22,7 +22,7 @@ const chatSlice = createSlice({
     setMessages(state, action) {
       state.messages = action.payload;
     },
-    addMessage(state, action) {
+    addMessages(state, action) {
       state.messages.push(action.payload);
       if (action.payload.senderId !== state.user?._id) {
         state.notification = action.payload;
@@ -49,7 +49,7 @@ export const {
   setChats,
   setCurrentChat,
   setMessages,
-  addMessage,
+  addMessages,
   getChats,
   receiveChat,
   receiveMessage,

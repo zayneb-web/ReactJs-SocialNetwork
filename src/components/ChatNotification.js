@@ -44,12 +44,7 @@ const ChatNotification = () => {
                   <span className="font-bold">Sara Salah</span> replied on the <span className="font-bold text-blue-500">Upload Image</span> article. 2m
                 </p>
               </a>
-              <a href="#" className="flex items-center px-4 py-3  hover:bg-bgColor bg-primary -mx-2">
-                <img className="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="avatar" />
-                <p className="text-gray-600 text-sm mx-2">
-                  <span className="font-bold">Sara Salah</span> replied on the <span className="font-bold text-blue-500">Upload Image</span> article. 2m
-                </p>
-              </a>
+             
               {/* Add other notifications here */}
             </div>
             <Link to="/chat" className="block bg-gray-800 text-white text-center font-bold py-2">See all messages</Link>

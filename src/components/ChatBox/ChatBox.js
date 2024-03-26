@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  getMessages, getUserInfo, getUsersForSidebar } from "../../utils/api";
+import {  addMessage, getMessages, getUserInfo, getUsersForSidebar } from "../../utils/api";
 import { format } from "timeago.js";
 import InputEmoji from 'react-input-emoji';
 import axios from "axios";
-import { addMessage , } from "../../redux/chatSlice"; 
+import { addMessages  } from "../../redux/chatSlice"; 
 
 export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   const dispatch = useDispatch();
@@ -15,6 +15,7 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  
   const scroll = useRef();
 
 
@@ -23,6 +24,7 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
       try {
         const fetchedUserData = await getUserInfo(user.token, chat.members.find(id => id !== currentUser));
         setUserData(fetchedUserData);
+      //  dispatch(setReceiverName(fetchedUserData.firstName));
         console.log("fetchedUserData", fetchedUserData);
       } catch (error) {
         console.log(error);
@@ -67,15 +69,22 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
         file: selectedImage ? selectedImage.name : "",
         video: "", // Initialize video attribute as an empty string
       };
+  
+      // Dispatch addMessage action to update Redux state
+      dispatch(addMessages(messageData));
   // Dispatch addMessage action to update Redux state
-  dispatch(addMessage(messageData));
+
+
+// Add the message to the database
+const data = await addMessage(messageData, user.token); // Issue might be here
+
+      // If an image is selected, upload it to Cloudinary
       if (selectedImage) {
-        // If an image is selected, upload it to Cloudinary
+        // Upload image to Cloudinary
         const form = new FormData();
         form.append("file", selectedImage);
         form.append("upload_preset", "socialMediaChat");
   
-        // Upload image to Cloudinary
         const response = await axios.post(
           "https://api.cloudinary.com/v1_1/dqthcvs08/image/upload",
           form
@@ -86,29 +95,29 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
         messageData.file = imageUrl;
       }
   
+      // If a video is selected, upload it to Cloudinary
       if (selectedVideo) {
-        // If a video is selected, upload it to Cloudinary
+        // Upload video to Cloudinary
         const form = new FormData();
         form.append("file", selectedVideo);
-
         form.append("upload_preset", "socialMediaChat");
-      
-        // Upload video to Cloudinary
+  
         const response = await axios.post(
           "https://api.cloudinary.com/v1_1/dqthcvs08/video/upload",
           form
         );
         const videoUrl = response.data.secure_url;
-      
+  
         // Update the video attribute in the message with the Cloudinary URL
         messageData.video = videoUrl;
       }
-      
-    // Emit the message data to the socket server
-    const receiverId = chat.members.find((id) => id !== currentUser);
-    setSendMessage({ ...messageData, receiverId });
+  
+      // Emit the message data to the socket server
+      const receiverId = chat.members.find((id) => id !== currentUser);
+      setSendMessage({ ...messageData, receiverId });
+  
       // Add the message to the database
-      const data = await addMessage(messageData, user.token);
+
   
       // Update the message list with the new message
       setMessages([...messages, messageData]);
@@ -123,12 +132,15 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
   
   
   
+  
 
   useEffect(() => {
     if (receivedMessage && receivedMessage.chatId === chat._id) {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
     }
   }, [receivedMessage, chat]);
+ // Add the message to the database
+ //const data =  addMessage(messageData, user.token); // Issue might be here
 
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
