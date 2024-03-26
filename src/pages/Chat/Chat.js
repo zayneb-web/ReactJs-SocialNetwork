@@ -1,25 +1,22 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./chat.css";
 import { getUserChats } from "../../utils/api";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Conversation from "../../components/Conversation";
 import { ChatBox } from "../../components/ChatBox/ChatBox";
 import { io } from "socket.io-client";
 import TopBar from '../../components/TopBar';
-import { setChats,setCurrentChat } from "../../redux/chatSlice";
+import { setChats, setCurrentChat, receiveMessage } from "../../redux/chatSlice";
 
 function Chat() {
-  const dispatch = useDispatch(); // Initialize useDispatch
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
- // const [chats, setChats] = useState([]);
-  const chats = useSelector((state) => state.chat.chats); // Access chats from Redux state
-  const [onlineUsers, setOnlineUsers] = useState([]);
-  //const [currentChat, setCurrentChat] = useState(null);
+  const chats = useSelector((state) => state.chat.chats);
   const currentChat = useSelector((state) => state.chat.currentChat);
+  const notification = useSelector((state) => state.chat.notification); // Access notification from Redux state
   const [sendMessage, setSendMessage] = useState(null);
-  const [notification, setNotification] = useState(null);
   const [receivedMessage, setReceivedMessage] = useState(null);
-  
+
   const socket = useRef(null);
 
   useEffect(() => {
@@ -40,10 +37,8 @@ function Chat() {
     socket.current = io("http://localhost:3001", socketOptions);
 
     socket.current.emit("new-user-add", user._id);
-    console.log("user", user._id);
 
     socket.current.on("get-users", (users) => {
-      setOnlineUsers(users);
       console.log("users", users);
     });
 
@@ -64,16 +59,28 @@ function Chat() {
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
       setReceivedMessage(data);
-      //notification
-  if (data.sender !== user._id) {
-    setNotification(data);
-  }
-
-      
-      console.log("recieve-message", data);
-      console.log("notification", notification);
+      dispatch(receiveMessage(data));
+      console.log("receive message", data);
     });
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    const getChats = async () => {
+      try {
+        const data = await getUserChats(user._id, user.token);
+        dispatch(setChats(data));
+        console.log("chats", data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (user._id && user.token) {
+      getChats();
+    }
+  }, [user, dispatch]);
+
+  console.log("Notification:", notification); // Check if notification is updated
+
 
   useEffect(() => {
     const getChats = async () => {
@@ -89,7 +96,7 @@ function Chat() {
     if (user._id && user.token) {
       getChats();
     }
-  }, [user._id, user.token,dispatch]);
+  }, [user._id, user.token]);
 
   return (
     <>

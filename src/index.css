@@ -75,6 +75,7 @@ z-index: 49;
     --color-bg: 227 227 227;
     --color-primary: 255 255 255;
     --color-secondary:255 255 255;
+   
 
     --color-ascent1: 0 0 0;
     --color-ascent2: 89 91 100;
@@ -130,4 +131,14 @@ z-index: 49;
      
   }
   
+/* Add custom colors */
+.bg-gray-800 {
+  background-color: #f82e2e; /* Dark Gray */
+}
+
+
+
+.hover\:bg-bgColor:hover {
+  background-color: var(--color-bg); /* Custom background color */
+}
 }

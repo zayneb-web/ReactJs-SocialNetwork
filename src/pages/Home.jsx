@@ -19,6 +19,7 @@ import { apiRequest, fetchPosts, handleFileUpload } from "../utils/api";
 const Home = () => {
     const { user, edit } = useSelector((state) => state.user);
     const {posts} = useSelector((state )=> state.posts);
+    
     console.log(posts);
     const [friendRequest, setFriendRequest] = useState(requests);
     const [suggestedFriends, setSuggestedFriends] = useState(suggest);

@@ -1,9 +1,12 @@
+// chatSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   chats: [],
   currentChat: null,
   messages: [],
+  notification: null,
+  badgeCount: 0,
 };
 
 const chatSlice = createSlice({
@@ -21,9 +24,10 @@ const chatSlice = createSlice({
     },
     addMessage(state, action) {
       state.messages.push(action.payload);
-    },
-    receiveMessage(state, action) {
-      state.messages.push(action.payload);
+      if (action.payload.senderId !== state.user?._id) {
+        state.notification = action.payload;
+       // state.badgeCount += 1; // Increment badge count when a new message is received
+      }
     },
     getChats(state, action) {
       state.chats = action.payload;
@@ -31,9 +35,24 @@ const chatSlice = createSlice({
     receiveChat(state, action) {
       state.chats.push(action.payload);
     },
+    receiveMessage(state, action) {
+      state.messages.push(action.payload);
+      if (action.payload.senderId !== state.user?._id) {
+        state.notification = action.payload;
+        state.badgeCount += 1; // Increment badge count when a new message is received
+      }
+    },
   },
 });
 
-export const { setChats, setCurrentChat, setMessages, addMessage, receiveMessage, getChats, receiveChat } = chatSlice.actions;
+export const {
+  setChats,
+  setCurrentChat,
+  setMessages,
+  addMessage,
+  getChats,
+  receiveChat,
+  receiveMessage,
+} = chatSlice.actions;
 
 export default chatSlice.reducer;
