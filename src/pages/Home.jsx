@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../components/Loading";
 import CustomButton from "../components/CustomButton";
 import TextInput from "../components/TextInput";
-//import { suggest, requests } from "../assets/data";
 import { Link } from "react-router-dom";
 import { NoProfile } from "../assets";
 import { BsFiletypeGif, BsPersonFillAdd } from "react-icons/bs";
@@ -16,8 +15,11 @@ import PostCard from "../components/PostCard";
 import EditProfile from "../components/EditProfile";
 import { apiRequest, fetchPosts, handleFileUpload, sendFriendRequest ,getUserInfo, likePost, deletePost} from "../utils/api";
 import { UserLogin } from "../redux/userSlice";
+import Stories from "../components/Stories/stories";
+import {io} from 'socket.io-client'
 //useSelector d'extraire des données du magasin Redux.
 const Home = () => {
+    const isNonMobileScreens = true;
     const { user, edit } = useSelector((state) => state.user);
     const {posts} = useSelector((state )=> state.posts);
     const [friendRequest, setFriendRequest] = useState([]);
@@ -26,6 +28,17 @@ const Home = () => {
     const [file, setFile] = useState(null);
     const [posting, setPosting] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [onlineUsers,setOnlineUsers]=useState([])
+    const socket = useRef()
+
+    useEffect(()=>{
+        socket.current = io('http://localhost:8800');
+        socket.current.emit("new-user-add",user._id)
+        socket.current.on('get-users',(users)=>{
+            setOnlineUsers(users);
+            console.log(onlineUsers)
+        })
+    }, [user])
 const dispatch = useDispatch();
     const {
         register,
@@ -139,9 +152,10 @@ const dispatch = useDispatch();
     },[]);
     return (
         <>
-            <div className='w-full px-0 lg:px-10 pb-20 2xl:px-40 bg-bgColor lg:rounded-lg h-screen overflow-hidden'>
-                <TopBar />
+                        <TopBar />
 
+            <div className='min-h-screen w-full px-0 lg:px-10 pb-20 2xl:px-10 bg-bgColor lg:rounded-lg h-screen overflow-hidden  '>
+                
                 <div className='w-full flex gap-2 lg:gap-4 pt-5 pb-10 h-full'>
                     {/* LEFT */}
                     <div className='hidden w-1/3 lg:w-1/4 h-full md:flex flex-col gap-6 overflow-y-auto'>
@@ -151,6 +165,9 @@ const dispatch = useDispatch();
 
                     {/* CENTER */}
                     <div className='flex-1 h-full px-4 flex flex-col gap-6 overflow-y-auto rounded-lg'>
+                    <div className='bg-primary px-4 rounded-lg'>
+              <Stories />
+            </div>
                         <form
                             onSubmit={handleSubmit(handlePostSubmit)}
                             className='bg-primary px-4 rounded-lg'
@@ -239,12 +256,14 @@ const dispatch = useDispatch();
                                         <CustomButton
                                             type='submit'
                                             title='Post'
-                                            containerStyles='bg-[#F76566] text-white py-1 px-6 rounded-full font-semibold text-sm'
+                                            containerStyles='bg-[#D00000] text-white py-1 px-6 rounded-full font-semibold text-sm'
                                         />
                                     )}
                                 </div>
                             </div>
                         </form>
+               
+          
                         {loading ? (
                             <Loading />
                         ) : posts?.length > 0 ? (
@@ -299,7 +318,7 @@ const dispatch = useDispatch();
                                             <CustomButton
                                                 title='Accept'
                                                 onClick={() => acceptFriendRequest(_id,"Accepted")}
-                                                containerStyles='bg-[#F76566] text-xs text-white px-1.5 py-1 rounded-full'
+                                                containerStyles='bg-[#D00000] text-xs text-white px-1.5 py-1 rounded-full'
                                             />
                                             <CustomButton
                                                 title='Deny'
@@ -348,7 +367,7 @@ const dispatch = useDispatch();
                                                 className='bg-[rgba(4,68,164,0.19)] text-sm text-white p-1 rounded'
                                                 onClick={() => {handleFriendRequest(friend?._id)}}
                                             >
-                                                <BsPersonFillAdd size={20} className='text-[#F76566]' />
+                                                <BsPersonFillAdd size={20} className='text-[#D00000]' />
                                             </button>
                                         </div>
                                     </div>
