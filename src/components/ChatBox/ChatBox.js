@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  addMessage, getMessages, getUserInfo, getUsersForSidebar } from "../../utils/api";
+import { addMessage, getMessages, getUserInfo, getUsersForSidebar } from "../../utils/api";
 import { format } from "timeago.js";
 import InputEmoji from 'react-input-emoji';
 import axios from "axios";
-import { addMessages  } from "../../redux/chatSlice"; 
-
+import { addMessages } from "../../redux/chatSlice"; // Import the addMessages action
+import { NoProfile } from "../../assets";
 export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(null);
@@ -15,7 +15,6 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
-  
   const scroll = useRef();
 
 
@@ -24,7 +23,6 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
       try {
         const fetchedUserData = await getUserInfo(user.token, chat.members.find(id => id !== currentUser));
         setUserData(fetchedUserData);
-      //  dispatch(setReceiverName(fetchedUserData.firstName));
         console.log("fetchedUserData", fetchedUserData);
       } catch (error) {
         console.log(error);
@@ -40,7 +38,7 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
     const fetchMessages = async () => {
       try {
         const  data  = await getMessages(chat._id, user.token);
-        dispatch(setMessages(data)); // Dispatch action to set messages in Redux store   setMessages(data);
+        setMessages(data);
         console.log("data", data);
       } catch (error) {
         console.log(error);
@@ -50,7 +48,7 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
     if (chat) {
       fetchMessages();
     }
-  }, [chat, user,dispatch]);
+  }, [chat, user]);
 
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
@@ -60,7 +58,7 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
       // If there is no text message, no image, and no video selected, return early
       return;
     }
-  
+
     try {
       let messageData = {
         senderId: currentUser,
@@ -69,56 +67,49 @@ export const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) 
         file: selectedImage ? selectedImage.name : "",
         video: "", // Initialize video attribute as an empty string
       };
-  
-      // Dispatch addMessage action to update Redux state
-      dispatch(addMessages(messageData));
-  // Dispatch addMessage action to update Redux state
 
-
-// Add the message to the database
-const data = await addMessage(messageData, user.token); // Issue might be here
-
-      // If an image is selected, upload it to Cloudinary
       if (selectedImage) {
-        // Upload image to Cloudinary
+        // If an image is selected, upload it to Cloudinary
         const form = new FormData();
         form.append("file", selectedImage);
         form.append("upload_preset", "socialMediaChat");
-  
+
+        // Upload image to Cloudinary
         const response = await axios.post(
           "https://api.cloudinary.com/v1_1/dqthcvs08/image/upload",
           form
         );
         const imageUrl = response.data.secure_url;
-  
+
         // Update the image attribute in the message with the Cloudinary URL
         messageData.file = imageUrl;
       }
-  
-      // If a video is selected, upload it to Cloudinary
+
       if (selectedVideo) {
-        // Upload video to Cloudinary
+        // If a video is selected, upload it to Cloudinary
         const form = new FormData();
         form.append("file", selectedVideo);
+
         form.append("upload_preset", "socialMediaChat");
-  
+
+        // Upload video to Cloudinary
         const response = await axios.post(
           "https://api.cloudinary.com/v1_1/dqthcvs08/video/upload",
           form
         );
         const videoUrl = response.data.secure_url;
-  
+
         // Update the video attribute in the message with the Cloudinary URL
         messageData.video = videoUrl;
       }
-  
-      // Emit the message data to the socket server
-      const receiverId = chat.members.find((id) => id !== currentUser);
-      setSendMessage({ ...messageData, receiverId });
-  
-      // Add the message to the database
 
-  
+    // Emit the message data to the socket server
+    const receiverId = chat.members.find((id) => id !== currentUser);
+    setSendMessage({ ...messageData, receiverId });
+    dispatch(addMessages(messageData)); // Dispatch addMessages action
+      // Add the message to the database
+      const data = await addMessage(messageData, user.token);
+
       // Update the message list with the new message
       setMessages([...messages, messageData]);
       setNewMessage("");
@@ -129,18 +120,15 @@ const data = await addMessage(messageData, user.token); // Issue might be here
       console.log("error", error);
     }
   };
-  
-  
-  
-  
+
+
+
 
   useEffect(() => {
     if (receivedMessage && receivedMessage.chatId === chat._id) {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
     }
   }, [receivedMessage, chat]);
- // Add the message to the database
- //const data =  addMessage(messageData, user.token); // Issue might be here
 
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
@@ -157,7 +145,7 @@ const data = await addMessage(messageData, user.token); // Issue might be here
     setSelectedVideo(video); // Update selectedVideo state
     setNewMessage(video.name); // Update the message input with the video name
   };
-  
+
 const handleImageChange = (event) => {
 const image = event.target.files[0];
 console.log("image", image);
@@ -166,22 +154,27 @@ setNewMessage(image.name); // Update the message input with the file name
 };
 
 
+ 
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-  
+
 
   return (
-  
+
     <>
     {chat ? (
       <>
         <div className="chat-area">
-          <div className="chat-area-header">
-            <div className="chat-area-title">CodePen Group</div>
-          </div>
+       
           {messages.map((message, index) => (
-<div ref={scroll} key={index} className={`chat ${message.senderId === currentUser ? 'chat-end' : 'chat-start'}`}>
+<div ref={scroll}  key={index} className={`chat ${message.senderId === currentUser ? 'chat-end' : 'chat-start'}`}>
+<div class="chat-image avatar">
+    <div class="w-10 rounded-full">
+      <img alt="Tailwind CSS chat bubble component"       src={user?.profileUrl ?? NoProfile}
+ />
+    </div>
+  </div>
   {message.file ? (
     // Display image if message has a file
     <div >
@@ -198,8 +191,11 @@ setNewMessage(image.name); // Update the message input with the file name
       <span>{format(message.createdAt)}</span>
     </div>
   ) : (
+    
+  
     // Display text message if no file or video
     <div className={`chat-bubble ${message.senderId === currentUser ? 'chat-bubble-primary' : 'chat-bubble'}`}>
+   
       <span>{message.text}</span>
       <div className="chat-msg-date">
         <span>{format(message.createdAt)}</span>
@@ -320,9 +316,9 @@ setNewMessage(image.name); // Update the message input with the file name
               <img src="https://images.unsplash.com/photo-1516085216930-c93a002a8b01?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" />
               <img src="https://images.unsplash.com/photo-1458819714733-e5ab3d536722?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=933&q=80" />
             </div>
-  
+
           </div>
-        
+
         </div>
       </>
     ) : (
@@ -330,7 +326,7 @@ setNewMessage(image.name); // Update the message input with the file name
       <div className='px-4 text-center sm:text-lg md:text-xl text-black-200 font-semibold flex flex-col items-center gap-2'>
         <p>Welcome 👋 {user.firstName} </p>
         <p>Select a chat to start messaging</p>
-      
+
       </div>
     </div>
     )}

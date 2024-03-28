@@ -130,17 +130,17 @@ html {
 
 .app {
   position: fixed; /* Make the container fixed */
-  top: 58%; /* Adjust as needed */
+  top: 56%; /* Adjust as needed */
 bottom: 50%;
   transform: translateY(-50%); /* Center the container vertically */
   display: flex;
   flex-direction: column;
   background-color: var(--theme-bg-color);
   max-width: calc(1600px + 400px); /* Adjust the max-width */
-  width: calc(100% - 320px); /* Adjust the width (160px from left and 160px from right) */
+  width: calc(100% - 38px); /* Adjust the width (160px from left and 160px from right) */
   height: 80vh;
-  left: 160px; /* Space from the left */
-  right: 160px; /* Space from the right */
+  left: 14px; /* Space from the left */
+  right:14px; /* Space from the right */
   overflow: hidden;
   border-radius: 20px;
 }
@@ -181,14 +181,17 @@ bottom: 50%;
 }
 
 .chat-area {
- flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  flex-grow: 1; /* Add this line */
 }
 
 .search-bar {
  height: 80px;
  z-index: 3;
  position: relative;
- margin-left: 280px;
+ margin-left: px;
 
  input {
   height: 100%;
@@ -289,6 +292,7 @@ bottom: 50%;
  display: flex;
  align-items: center;
  padding: 20px;
+ 
  cursor: pointer;
  transition: 0.2s;
  position: relative;
@@ -297,7 +301,7 @@ bottom: 50%;
  }
  &.active {
   background: var(--active-conversation-bg);
-  border-left: 4px solid var(--theme-color);
+  border-left: 6px solid var(--theme-color);
  }
  &.online:before {
   content: "";
@@ -323,7 +327,7 @@ bottom: 50%;
 }
 
 .msg-content {
- font-weight: 500;
+ font-weight: 200;
  font-size: 13px;
  display: flex;
 }
@@ -384,10 +388,10 @@ bottom: 50%;
   top: 0;
   left: 0;
   z-index: 2;
-  width: 100%;
+  width: 50%;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 50px;
   background: var(--chat-header-bg);
  }
  &-profile {
@@ -418,19 +422,19 @@ bottom: 50%;
  position: relative;
 }
 
+
 .chat-msg-date {
- position: absolute;
- left: calc(100% + 12px);
- bottom: 0;
- font-size: 12px;
- font-weight: 600;
- color: var(--msg-date);
- white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--msg-date);
+  white-space: nowrap;
+  margin-top: 4px; /* Adjust the margin as needed */
 }
+
 
 .chat-msg {
  display: flex;
- padding: 0 20px 45px;
+ padding: 0 20px 100px;
  &-content {
   margin-left: 12px;
   max-width: 70%;
@@ -491,6 +495,7 @@ bottom: 50%;
  }
   
 
+
   
 
 .chat-area-footer svg {
@@ -516,6 +521,8 @@ bottom: 50%;
  font-size: 15px;
  margin: 0 14px;
  width: 100%;
+ flex-grow: 1; /* Grow to fill the remaining space */
+ margin: 0 10px; /* Add margin */
  
  &::placeholder {
   color: var(--input-chat-color);
@@ -795,4 +802,19 @@ bottom: 50%;
    padding-right: 10px;
   }
  }
+}
+/* Add this CSS to your existing styles */
+
+
+
+
+
+.chat-image {
+  max-width: 250px; /* Adjust the maximum width of the image */
+  border-radius: 10px; /* Adjust the border radius as needed */
+}
+
+.chat-video {
+  max-width: 200px; /* Adjust the maximum width of the video */
+  border-radius: 10px; /* Adjust the border radius as needed */
 }

@@ -16,7 +16,8 @@ function Chat() {
   const notification = useSelector((state) => state.chat.notification); // Access notification from Redux state
   const [sendMessage, setSendMessage] = useState(null);
   const [receivedMessage, setReceivedMessage] = useState(null);
-
+    const [loading, setLoading] = useState(false);
+    const [notifications, setNotifications] = useState([]);
   const socket = useRef(null);
 
   useEffect(() => {
@@ -41,6 +42,13 @@ function Chat() {
     socket.current.on("get-users", (users) => {
       console.log("users", users);
     });
+    socket.current.on('notification', (message) => {
+      // Update the notification state with the new notification
+      setNotifications((prevNotifications) => [...prevNotifications, message]);
+      console.log("message", message);
+      // Increment the badge count
+      //dispatch(incrementBadgeCount());
+    });
 
     return () => {
       if (socket.current) {
@@ -55,11 +63,10 @@ function Chat() {
       console.log("send message", sendMessage);
     }
   }, [sendMessage]);
-
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
-      setReceivedMessage(data);
-      dispatch(receiveMessage(data));
+     setReceivedMessage(data);
+      dispatch(receiveMessage(data)); // Dispatch the receiveMessage action
       console.log("receive message", data);
     });
   }, [dispatch]);
@@ -79,7 +86,7 @@ function Chat() {
     }
   }, [user, dispatch]);
 
-  console.log("Notification:", notification); // Check if notification is updated
+  //console.log("Notification:", notification); // Check if notification is updated
 
 
   useEffect(() => {
@@ -101,7 +108,7 @@ function Chat() {
   return (
     <>
       <div className='w-full px-0 lg:px-10 pb-20 2xl:px-40 bg-bgColor lg:rounded-lg h-screen overflow-hidden'>
-        <TopBar
+        <TopBar 
          />
         <div className="app ">
           <div className="header">

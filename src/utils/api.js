@@ -151,14 +151,14 @@ export const createChat = (data, token) => apiRequest({ url: '/chat/', data, met
 export const getUserChats = async (userId, token) => {
     try {
       const res = await apiRequest({
-        url: `/chat/${userId}`, // Adjust the URL according to your API endpoint
+        url: `/chat/${userId}`, 
         token: token,
         method: "GET"
       });
-      return res || []; // Return an empty array if res is falsy
+      return res || [];
     } catch (error) {
       console.log(error);
-      return []; // Return an empty array if an error occurs
+      return []; 
     }
 };
 
@@ -172,16 +172,3 @@ export const findChat = (firstId, secondId, token) =>
   // Additional socket event listeners or configurations can be added here
 
 
-  export const getUsersForSidebar = async (token) => {
-    try {
-        const res = await apiRequest({
-            url: "/sidebar",
-            token: token,
-            method: "GET"
-        });
-        return res; // Assuming res contains the list of users for the sidebar
-    } catch (error) {
-        console.log(error);
-        return null; // Handle error appropriately
-    }
-}

@@ -6,7 +6,7 @@ import { useSelector ,useDispatch} from "react-redux";
 
 const Conversation = ({ data, currentUser }) => {
   const dispatch = useDispatch();
-
+  const [loading, setLoading] = useState(false);
 
   const [userData, setUserData] = useState(null);
   const user = useSelector((state) => state.user.user);
@@ -47,7 +47,7 @@ const Conversation = ({ data, currentUser }) => {
         </div>
       </div>
   
-    <hr style={{ width: "85%", border: "0.1px solid #ececec" }} />
+    <hr style={{ width: "100%", border: "0.5px solid #ececec" }} />
   </>
   );
 };

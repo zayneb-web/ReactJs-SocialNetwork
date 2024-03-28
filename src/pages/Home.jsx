@@ -27,6 +27,9 @@ const Home = () => {
     const [file, setFile] = useState(null);
     const [posting, setPosting] = useState(false);
     const [loading, setLoading] = useState(false);
+    const badgeCount = useSelector((state) => state.chat.badgeCount);
+    const notifications = useSelector((state) => state.chat.messages);
+
 const dispatch = useDispatch();
     const {
         register,
@@ -90,7 +93,7 @@ const dispatch = useDispatch();
     return (
         <>
             <div className='w-full px-0 lg:px-10 pb-20 2xl:px-40 bg-bgColor lg:rounded-lg h-screen overflow-hidden'>
-                <TopBar />
+            <TopBar />
 
                 <div className='w-full flex gap-2 lg:gap-4 pt-5 pb-10 h-full'>
                     {/* LEFT */}
